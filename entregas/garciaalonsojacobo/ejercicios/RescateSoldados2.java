@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class RescateSoldados2 {
+
     public static void main(String[] args) {
 
         int[][] superficie = {
@@ -30,7 +31,7 @@ public class RescateSoldados2 {
     }
 
     private static void despejarSuperfice(int[][] superficie, int[] cordenadas) {
-       
+
         int escenario_y = cordenadas[0];
         int escenario_x = cordenadas[1];
 
