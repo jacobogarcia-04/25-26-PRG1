@@ -16,7 +16,7 @@ public class RescateSoldados2 {
 
         };
         final int SOLDADOS = 1;
-        final int TURNOS = 20;
+        final int TURNOS = 10;
         boolean seguirJugando = true;
         int contadorTurnos = 0;
         colocarSoldados(superficie, SOLDADOS);
@@ -30,23 +30,23 @@ public class RescateSoldados2 {
             seguirJugando = contadorTurnos < TURNOS && quedanSoldados;
 
         } while (seguirJugando);
-        
+
         if (!quedanSoldados) {
-            System.out.println("¡MISIÓN COMPLETADA! Soldados rescatados = "+ SOLDADOS);
+            System.out.println("¡MISIÓN COMPLETADA! Soldados rescatados = " + SOLDADOS);
         } else {
-            System.out.println("MISIÓN FALLIDA. Se acabaron los turnos 💀");
+            System.out.println("MISIÓN FALLIDA. Se acabaron los turnos, con un total de intentos= " + contadorTurnos);
         }
 
     }
 
     private static void despejarSuperfice(int[][] superficie, int[] cordenadas) {
 
-        int escenario_y = cordenadas[0];
-        int escenario_x = cordenadas[1];
+        int y = cordenadas[0];
+        int x = cordenadas[1];
 
-        superficie[escenario_y][escenario_x] = superficie[escenario_y][escenario_x] < 0
-                ? superficie[escenario_y][escenario_x] * -1
-                : superficie[escenario_y][escenario_x];
+        superficie[y][x] = superficie[y][x] < 0
+                ? superficie[y][x] * -1
+                : superficie[y][x];
     }
 
     private static int[] preguntarCordenadas(int[][] superficie) {
@@ -84,17 +84,17 @@ public class RescateSoldados2 {
 
     }
 
-    private static void colocarSoldados(int[][] superficie, int soldados) {
+    private static void colocarSoldados(int[][] superficie, int SOLDADOS) {
         int soldadosColocados = 0;
         do {
-            int y = (int) (Math.random() * superficie[0].length);
-            int x = (int) (Math.random() * superficie.length);
+            int x = (int) (Math.random() * superficie[0].length);
+            int y = (int) (Math.random() * superficie.length);
             if (superficie[y][x] != -2) {
                 superficie[y][x] = -2;
                 soldadosColocados++;
             }
 
-        } while (soldadosColocados < soldados);
+        } while (soldadosColocados < SOLDADOS);
 
     }
 
