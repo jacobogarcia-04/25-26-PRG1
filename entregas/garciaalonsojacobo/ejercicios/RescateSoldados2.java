@@ -15,18 +15,27 @@ public class RescateSoldados2 {
                 { -1, -1, -1, -1, -1, -1, -1, -1 },
 
         };
-        final int SOLDADOS = 16;
+        final int SOLDADOS = 1;
         final int TURNOS = 20;
         boolean seguirJugando = true;
         int contadorTurnos = 0;
         colocarSoldados(superficie, SOLDADOS);
+        boolean quedanSoldados = true;
         do {
             mapearSuperficie(superficie);
             int[] cordenadas = preguntarCordenadas(superficie);
             despejarSuperfice(superficie, cordenadas);
             contadorTurnos++;
-            seguirJugando = contadorTurnos < TURNOS;
+            quedanSoldados = quedanPorRescatar(superficie);
+            seguirJugando = contadorTurnos < TURNOS && quedanSoldados;
+
         } while (seguirJugando);
+        
+        if (!quedanSoldados) {
+            System.out.println("¡MISIÓN COMPLETADA! Soldados rescatados = "+ SOLDADOS);
+        } else {
+            System.out.println("MISIÓN FALLIDA. Se acabaron los turnos 💀");
+        }
 
     }
 
@@ -44,30 +53,48 @@ public class RescateSoldados2 {
         Scanner scanner = new Scanner(System.in);
         int y;
         int x;
+        int[] coordenada = null;
+        boolean tieneCoordenada = false;
         do {
             System.out.print("Cordenada y?");
             y = scanner.nextInt();
 
             System.out.print("Cordenada x?");
             x = scanner.nextInt();
-            if (y < 0 || y >= superficie.length || x >= superficie[0].length || x < 0) {
-                System.out.println("CORDENADAS INCORRECTAS");
+            if (x == 666) {
+                mostrarMapaRevelado(superficie);
+            } else {
+
+                coordenada = new int[] { y, x };
+                tieneCoordenada = cordenadaValida(superficie, coordenada);
             }
 
-        } while (y < 0 || y >= superficie.length || x >= superficie[0].length || x < 0);
-        return new int[] { y, x };
+        } while (!tieneCoordenada);
+        return coordenada;
     }
 
-    private static void colocarSoldados(int[][] superficie, int SOLDADOS) {
+    private static boolean cordenadaValida(int[][] superficie, int[] coordenada) {
+        int y = coordenada[0];
+        int x = coordenada[1];
+        if (y < 0 || y >= superficie.length || x >= superficie[0].length || x < 0) {
+            System.out.println("CORDENADAS INCORRECTAS");
+            return false;
+        }
+        return true;
+
+    }
+
+    private static void colocarSoldados(int[][] superficie, int soldados) {
         int soldadosColocados = 0;
         do {
-            int x = (int) (Math.random() * superficie[0].length);
-            int y = (int) (Math.random() * superficie.length);
-            if (superficie[x][y] != -2) {
-                superficie[x][y] = -2;
+            int y = (int) (Math.random() * superficie[0].length);
+            int x = (int) (Math.random() * superficie.length);
+            if (superficie[y][x] != -2) {
+                superficie[y][x] = -2;
+                soldadosColocados++;
             }
-            soldadosColocados++;
-        } while (soldadosColocados < SOLDADOS);
+
+        } while (soldadosColocados < soldados);
 
     }
 
@@ -78,11 +105,24 @@ public class RescateSoldados2 {
             System.out.print(y + "|");
 
             for (int x = 0; x < superficie[y].length; x++) {
-                System.out.print(mapear(superficie[y][x]));
+                int tile = superficie[y][x];
+                System.out.print(mapear(tile));
             }
             System.out.println();
         }
 
+    }
+
+    static boolean quedanPorRescatar(int[][] superficie) {
+        for (int y = 0; y < superficie.length; y++) {
+            for (int x = 0; x < superficie[y].length; x++) {
+                if (superficie[y][x] == -2) {
+                    return true;
+                }
+
+            }
+        }
+        return false;
     }
 
     private static String mapear(int nºmatriz) {
@@ -90,4 +130,15 @@ public class RescateSoldados2 {
         return nºmatriz < 0 ? TILES[0] : TILES[nºmatriz];
     }
 
+    static void mostrarMapaRevelado(int[][] superficie) {
+        System.out.println("    0  1  2  3  4  5  6  7 ");
+        System.out.println("--+------------------------");
+        for (int y = 0; y < superficie.length; y++) {
+            System.out.print(y + "|");
+            for (int x = 0; x < superficie[y].length; x++) {
+                System.out.printf("%3d", superficie[y][x]);
+            }
+            System.out.println();
+        }
+    }
 }
