@@ -99,8 +99,10 @@ public class Aspiradora {
     }
 
     static boolean posicionValida(int[] posicionAlgo, int[][] superficie) {
-        return posicionAlgo[0] >= 0 && posicionAlgo[0] < superficie.length
-                && posicionAlgo[1] >= 0 && posicionAlgo[1] < superficie[0].length;
+        int y = posicionAlgo[0];
+        int x = posicionAlgo[1];
+
+        return y >= 0 && y < superficie.length && x >= 0 && x < superficie[y].length;
     }
 
     static void ensuciarEscenario(int[][] superficie) {
