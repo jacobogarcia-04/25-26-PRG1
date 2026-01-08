@@ -145,7 +145,7 @@ public class Aspiradora {
 
     static String imprimeBordeHorizontal(int length) {
         return "+" + "===".repeat(length) + "+";
-    }
+    } 
 
     static String mapearAspiradora() {
         return "(O)";
