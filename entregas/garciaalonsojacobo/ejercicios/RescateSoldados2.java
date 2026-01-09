@@ -16,6 +16,7 @@ public class RescateSoldados2 {
 
         };
         int prueba;
+        int prueba2;
         final int SOLDADOS = 1;
         final int TURNOS = 10;
         boolean seguirJugando = true;
