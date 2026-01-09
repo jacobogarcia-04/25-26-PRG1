@@ -15,6 +15,7 @@ public class RescateSoldados2 {
                 { -1, -1, -1, -1, -1, -1, -1, -1 },
 
         };
+        int prueba;
         final int SOLDADOS = 1;
         final int TURNOS = 10;
         boolean seguirJugando = true;
